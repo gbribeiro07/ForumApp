@@ -1,18 +1,30 @@
 const express = require("express");
 const app = express();
-const PORT = process.env.PORT || 3001;
-const mysql = require("./Config/Db");
+const pool = require("./db");
+const authRoutes = require("./Routes/authRoutes");
+const postRoutes = require("./Routes/postRoutes");
+const commentRoutes = require("./Routes/commentRoutes");
+const userRoutes = require("./Routes/userRoutes");
+const uploadRoutes = require("./Routes/uploadRoutes");
+const path = require("path");
+const cors = require("cors");
+const PORT = process.env.PORT || 3001
 
-// Middleware para parsear JSON no corpo das requisições
+app.use(cors());
 app.use(express.json());
 
-// Rota de exemplo
-app.get("/", (req, res) => {
-  res.send("Bem-vindo à API do Fórum!");
-});
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/api/auth', authRoutes);
+app.use('/api/posts', postRoutes);
+app.use('/api/comments', commentRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/upload', uploadRoutes);
 
-// Inicia o servidor
+app.get('/', (req, res) => {
+    res.send("Bem vindo à API")
+})
+
 app.listen(PORT, () => {
-  console.log(`Servidor rodando na porta ${PORT}`);
-  console.log(`Acesse: http://localhost:${PORT}`);
-});
+  console.log(`Servidor rodando OK`);
+  console.log(`Acesse: http:/localhost:${PORT}`);
+})
