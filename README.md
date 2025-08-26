@@ -1,3 +1,3 @@
-# devSocial
-social network in react-native stack :)
-# App-Forum
+# ForumApp
+
+Social network in react-native stack :)
